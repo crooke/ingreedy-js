@@ -5,16 +5,17 @@ ingredient_additions
   = ingredient_addition+
 
 ingredient_addition
-  = amount:amount (ws+)? container:container? unit:unit? (ws+)? ingredient:ingredient? [\n]?  {
+  = amount:amount (ws+)? container:container? unit:unit? (ws+)? "of"? (ws+)? ingredient:ingredient? [,]? (ws+)? comment:comment? [\n]?  {
     var result = {
       amount: amount,
       container: container,
       ingredient: ingredient,
-      unit: unit
+      unit: unit,
+      comment: comment
     };
 
     for(var i in result) {
-      if(result[i] === null || result[i] === undefined) {
+      if(!result[i]) {
         delete result[i];
       }
     }
@@ -42,6 +43,9 @@ space
 
 ingredient
   = phrase
+
+comment
+  = "("? ws? comment:[^)]* ws? ")"? { return comment.filter(c => c !== '(').join(''); }
 
 phrase
   = $(word (space word)*)

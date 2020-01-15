@@ -58,4 +58,22 @@ describe("Ingreedy", function() {
       });
     });
   });
+
+  describe('comments', () => {
+    it('treats text in parentheses as comments', () => {
+      expect('2 peppers (red or green)').toBeParsedAs({
+        amount: '2',
+        ingredient: 'peppers',
+        comment: 'red or green'
+      })
+    })
+    
+    it('treats text after comma as comments', () => {
+      expect('34 tomatoes, sliced').toBeParsedAs({
+        amount: '34',
+        ingredient: 'tomatoes',
+        comment: 'sliced'
+      })
+    })
+  })
 });
